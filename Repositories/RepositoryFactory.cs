@@ -21,9 +21,11 @@ namespace ImBack.Repositories
             switch (this._persistenceType)
             {
                 case FILE_SYSTEM_PERSISTENCE:
-                    return null;
+                    return new FileSystem();
+                case DATABASE_PERSISTENCE:
+                    return new Database();
                 default:
-                    return null;
+                    return new ConsoleLog();
             }
         }
     }

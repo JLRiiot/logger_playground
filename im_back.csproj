@@ -38,6 +38,9 @@
     <Compile Include="Contracts\ILogPersistable.cs" />
     <Compile Include="Facades\Log.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
+    <Compile Include="Repositories\FileSystem.cs" />
+    <Compile Include="Repositories\ConsoleLog.cs" />
+    <Compile Include="Repositories\Database.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\" />

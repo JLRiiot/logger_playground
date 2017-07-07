@@ -9,7 +9,11 @@ namespace ImBack
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            String logMessage = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+			Log.WriteError(logMessage);
+            Log.WriteWarning(logMessage);
+            Log.WriteMessage(logMessage);
         }
     }
 }
