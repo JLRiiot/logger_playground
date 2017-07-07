@@ -1,5 +1,5 @@
 ﻿using System;
-using ImBack.Contracts;
+using System.Collections.Generic;
 
 namespace ImBack.Repositories
 {
@@ -9,23 +9,37 @@ namespace ImBack.Repositories
 		const String DATABASE_PERSISTENCE = "database";
 		const String CONSOLE_PERSISTENCE = "console";
 
-        private String _persistenceType = String.Empty;
+        private HashSet<String> _persistenceTypes;
+        private HashSet<String> _verbosity;
 
-        public RepositoryFactory(String persistenceType)
+        public RepositoryFactory(String persistenceTypes, String verbosity)
         {
-            this._persistenceType = persistenceType;
+            this._persistenceTypes = new HashSet<String>(persistenceTypes.Split('|'));
+            this._verbosity = new HashSet<String>(verbosity.Split('|'));
         }
 
-        public ILogPersistable CreateRepository()
+        public List<LogRepository> CreateRepositories()
         {
-            switch (this._persistenceType)
+            List<LogRepository> repositories = new List<LogRepository>();
+
+            foreach (var persistenceType in _persistenceTypes)
+            {
+                repositories.Add(CreateRepository(persistenceType));
+            }
+
+            return repositories;
+        }
+
+        private LogRepository CreateRepository(String persistenceType)
+        {
+            switch (persistenceType)
             {
                 case FILE_SYSTEM_PERSISTENCE:
-                    return new FileSystem();
+                    return new FileSystemLog(this._verbosity);
                 case DATABASE_PERSISTENCE:
-                    return new Database();
+                    return new DatabaseLog(this._verbosity);
                 default:
-                    return new ConsoleLog();
+                    return new ConsoleLog(this._verbosity);
             }
         }
     }

@@ -1,34 +1,38 @@
 ﻿using System;
-using ImBack.Contracts;
+using System.Collections.Generic;
+
 using ImBack.Models;
 
 namespace ImBack.Repositories
 {
-    public class ConsoleLog : ILogPersistable
+    public class ConsoleLog : LogRepository
     {
-        public ConsoleLog()
+        private Dictionary<String, ConsoleColor> _colorCodes = new Dictionary<string, ConsoleColor>();
+
+        public ConsoleLog(HashSet<string> verbosity) : base(verbosity)
         {
+            this.Initialize();
         }
 
-        public void WirteWarning(string warning)
+        private void Initialize()
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            LogEntry entry = new LogEntry(warning, LogType.Warning);
-            Console.WriteLine(entry.Serialize());
+            this._colorCodes.Add("ERROR", ConsoleColor.Red);
+            this._colorCodes.Add("WARNING", ConsoleColor.Yellow);
+            this._colorCodes.Add("MESSAGE", ConsoleColor.Blue);
         }
 
-        public void WriteError(string error)
+        protected override string Log(LogEntry logEntry)
         {
-			Console.ForegroundColor = ConsoleColor.Red;
-			LogEntry entry = new LogEntry(error, LogType.Error);
-            Console.WriteLine(entry.Serialize());
+            this.SetConsoleForegroundColor(logEntry.Type);
+            String line = logEntry.ToJSON();
+            Console.WriteLine(line);
+
+            return line;
         }
 
-        public void WriteMessage(string message)
+        private void SetConsoleForegroundColor(string type)
         {
-			Console.ForegroundColor = ConsoleColor.Green;
-			LogEntry entry = new LogEntry(message, LogType.Info);
-            Console.WriteLine(entry.Serialize());
+            Console.ForegroundColor = this._colorCodes[type];
         }
     }
 }

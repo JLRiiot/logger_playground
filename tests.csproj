@@ -28,6 +28,7 @@
     <Reference Include="System" />
     <Reference Include="nunit.framework">
       <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -39,7 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="im_back.csproj">
       <Project>{1B990FF0-6959-4B63-BA04-87FA08DD15F5}</Project>
-      <Name>im_back</Name>
+      <Name>ImBack</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

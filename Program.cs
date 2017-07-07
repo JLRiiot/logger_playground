@@ -9,10 +9,10 @@ namespace ImBack
     {
         public static void Main(string[] args)
         {
-			Log.WriteMessage("Initializing app...");
-			Log.WriteMessage("App initialized!");
-			Log.WriteError("Testing error message...");
-			Log.WriteWarning("Testing warning message...");
+			Log.Message("Initializing app...");
+			Log.Message("App initialized!");
+			Log.Error("Testing error message...", "Details...");
+			Log.Warning("Testing warning message...");
         }
     }
 }

@@ -41,20 +41,22 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Contracts\ILogPersistable.cs" />
     <Compile Include="Facades\Log.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
-    <Compile Include="Repositories\FileSystem.cs" />
+    <Compile Include="Repositories\FileSystemLog.cs" />
     <Compile Include="Repositories\ConsoleLog.cs" />
-    <Compile Include="Repositories\Database.cs" />
-    <Compile Include="Models\LogEntry.cs" />
-    <Compile Include="Models\LogType.cs" />
+    <Compile Include="Repositories\DatabaseLog.cs" />
+    <Compile Include="Models\LogEntry\LogEntry.cs" />
+    <Compile Include="Models\LogEntry\ErrorLog.cs" />
+    <Compile Include="Models\LogEntry\MessageLog.cs" />
+    <Compile Include="Models\LogEntry\WarningLog.cs" />
+    <Compile Include="Repositories\LogRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Repositories\" />
     <Folder Include="Facades\" />
     <Folder Include="Models\" />
+    <Folder Include="Models\LogEntry\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -1,33 +1,44 @@
 ﻿using System;
 using System.Configuration;
-using ImBack.Contracts;
+using System.Collections.Generic;
+
 using ImBack.Repositories;
+using ImBack.Models;
 
 namespace ImBack.Facades
 {
     public static class Log
     {
-        static readonly ILogPersistable _repository;
+        static readonly List<LogRepository> _loggers;
 
         static Log()
         {
-            RepositoryFactory factory = new RepositoryFactory(ConfigurationManager.AppSettings["LogPersistence"]);
-            _repository = factory.CreateRepository();
+            RepositoryFactory factory = new RepositoryFactory(ConfigurationManager.AppSettings["LogPersistence"]
+                                                              , ConfigurationManager.AppSettings["LogVerbosity"]);
+            _loggers = factory.CreateRepositories();
         }
 
-        public static void WriteError(String error)
+        private static void WriteLog(LogEntry logEntry)
         {
-            _repository.WriteError(error);
+            foreach (var logger in _loggers)
+            {
+                logger.WriteLog(logEntry);
+            }
         }
 
-        public static void WriteMessage(String message)
+        public static void Error(String error, String details)
         {
-            _repository.WriteMessage(message);
+            WriteLog(new ErrorLog(error, details, DateTime.Now));
         }
 
-        public static void WriteWarning(String warning)
-        {
-            _repository.WirteWarning(warning);
+        public static void Message(String message)
+		{
+			WriteLog(new MessageLog(message, DateTime.Now));
+        }
+
+        public static void Warning(String warning)
+		{
+			WriteLog(new WarningLog(warning, DateTime.Now));
         }
     }
 }
